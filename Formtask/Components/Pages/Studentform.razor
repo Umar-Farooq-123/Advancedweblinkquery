@@ -1,0 +1,48 @@
+﻿@page "/studentdata"
+@using Formtask.Data
+@using Formtask.Model
+
+@inject DataDbContext _db
+
+<PageTitle>Index</PageTitle>
+
+
+<EditForm Model="@student" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <label for="name">Name:</label>
+    <InputText id="name" @bind-Value="student.Name" class="form-control" />
+    <br />
+    <label for="email">Email:</label>
+    <InputText id="email" @bind-Value="student.Email" class="form-control" />
+</EditForm>
+
+<table>
+    <tbody>
+        @foreach (var Std in students)
+        {
+            <tr>
+                <td>@Std.Name</td>
+                <td>@Std.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    Student student = new Student();
+
+    List<Student> students = new List<Student>();
+
+    protected override void OnInitialized()
+    {
+        students = _db.Student.ToList();
+    }
+
+    void HandleSubmit()
+    {
+        _db.Add(student);
+        _db.SaveChangesAsync();
+    }
+}
