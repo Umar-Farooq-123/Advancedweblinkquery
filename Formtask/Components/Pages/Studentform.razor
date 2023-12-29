@@ -11,10 +11,11 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <label for="name">Name:</label>
-    <InputText id="name" @bind-Value="student.Name" class="form-control" />
+    <InputText id="name" @bind-Value="student.Sname" class="form-control" />
     <br />
-    <label for="email">Email:</label>
-    <InputText id="email" @bind-Value="student.Email" class="form-control" />
+    <label for="major">Major:</label>
+    <InputText id="major" @bind-Value="student.Major" class="form-control" />
+    <button type="submit">Submit</button>
 </EditForm>
 
 <table>
@@ -22,8 +23,8 @@
         @foreach (var Std in students)
         {
             <tr>
-                <td>@Std.Name</td>
-                <td>@Std.Email</td>
+                <td>@Std.Sname</td>
+                <td>@Std.Major</td>
             </tr>
         }
     </tbody>
@@ -34,7 +35,7 @@
     Student student = new Student();
 
     List<Student> students = new List<Student>();
-
+ 
     protected override void OnInitialized()
     {
         students = _db.Student.ToList();
@@ -42,7 +43,8 @@
 
     void HandleSubmit()
     {
-        _db.Add(student);
-        _db.SaveChangesAsync();
+        _db.Student.Add(student);
+        _db.SaveChanges();
+        
     }
 }
